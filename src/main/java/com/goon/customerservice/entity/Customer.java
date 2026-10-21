@@ -37,7 +37,7 @@ public class Customer {
 
     @Builder.Default
     @Column(nullable = false)
-    private boolean enabled = true;
+    private boolean enabled = true;  //account disabled or enabled
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
