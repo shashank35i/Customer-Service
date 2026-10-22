@@ -2,11 +2,15 @@ package com.goon.customerservice.controller;
 
 import com.goon.customerservice.service.AuthService;
 import com.goon.customerservice.service.LoginRequest;
+import com.goon.customerservice.service.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
@@ -18,5 +22,10 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
 
         return ResponseEntity.ok(authService.login(loginRequest));
+    }
+
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest){
+        return ResponseEntity.created(URI.create("/auth/login"))
+                .body(authService.register(registerRequest));
     }
 }
