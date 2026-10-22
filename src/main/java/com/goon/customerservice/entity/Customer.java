@@ -29,7 +29,7 @@ public class Customer {
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(nullable = false, unique = true)  //no use of lenggth , because we doing it in @pattern(regexp ... validation
     private String phone;
 
     @Column(name = "password_hash", nullable = false)

@@ -5,6 +5,7 @@ import com.goon.customerservice.repository.CustomerRepository;
 import com.goon.customerservice.security.JwtSigner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,5 +39,36 @@ public class AuthService {
         }
 
         return jwtSigner.generateToken(customer.getCustomerId(),Role.CUSTOMER);
+    }
+
+
+    public String register(RegisterRequest request){
+
+        if (request.name() == null || request.name().isBlank()
+                || request.email() == null || request.email().isBlank()
+                || request.phone() == null || request.phone().isBlank()
+                || request.password() == null || request.password().isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "All fields are required");
+        }
+
+        String email = request.email().trim().toLowerCase();
+
+            if(repository.existsByPhone(request.phone())){
+                throw new ResponseStatusException(HttpStatus.CONFLICT,"Phone already associated with other user");
+            }
+            if(repository.existsByEmail(email)){
+                throw new ResponseStatusException(HttpStatus.CONFLICT,"Email already associated with other user");
+            }
+            String encodedPass = passwordEncoder.encode(request.password());
+            Customer customer = Customer.builder()
+                            .name(request.name().trim())
+                                    .email(email)
+                                            .phone(request.phone())
+                                                    .passwordHash(encodedPass)
+                                                            .build();
+            repository.save(customer);
+
+             return "Registration Success";
     }
 }

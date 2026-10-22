@@ -34,7 +34,7 @@ public class JwtSigner {
                 .and()
                 .id(UUID.randomUUID().toString())
                 .subject(driverId.toString())
-                .issuer("Goon-Auth")
+                .issuer("goon-auth")
                 .claim("role",role.name())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plusSeconds(300)))
