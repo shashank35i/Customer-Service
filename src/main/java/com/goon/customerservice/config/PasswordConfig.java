@@ -1,4 +1,4 @@
-package com.goon.customerservice.security;
+package com.goon.customerservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
