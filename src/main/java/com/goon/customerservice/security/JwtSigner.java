@@ -37,7 +37,7 @@ public class JwtSigner {
                 .issuer("goon-auth")
                 .claim("role",role.name())
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(300)))
+                .expiration(Date.from(now.plusSeconds(2592000)))
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }
